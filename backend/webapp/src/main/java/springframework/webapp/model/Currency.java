@@ -1,43 +1,38 @@
 package springframework.webapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 public class Currency {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    private String baseName;
     private String baseCode;
 
+    @NotNull
+    private String baseName;
 
-    private Set<Rate> rates;
+    @OneToMany(mappedBy = "base")
+    @JsonManagedReference
+    private List<Rate> rates = new ArrayList<Rate>();
 
     public Currency() {
     }
 
-    public Currency(String baseName, String baseCode) {
-        this.baseName = baseName;
+    public Currency(String baseCode, String baseName) {
         this.baseCode = baseCode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        this.baseName = baseName;
     }
 
     public String getBaseCode() {
         return baseCode;
     }
 
-    public void setBaseCode(String baseCode) {
-        this.baseCode = baseCode;
+    public void setBaseCode(String id) {
+        this.baseCode = id;
     }
 
     public String getBaseName() {
@@ -48,23 +43,17 @@ public class Currency {
         this.baseName = baseName;
     }
 
-
-    public Set<Rate> getRates() {
+    public List<Rate> getRates() {
         return rates;
     }
 
-    public void setRates(Set<Rate> rates) {
+    public void setRates(List<Rate> rates) {
         this.rates = rates;
     }
 
-    @Override
-    public String toString() {
-        return "Currency{" +
-                "id=" + id +
-                ", baseName='" + baseName + '\'' +
-                ", baseCode='" + baseCode + '\'' +
-                ", rates=" + rates +
-                '}';
+    //Maybe Not ?
+    public void addRate(Rate rate){
+        this.rates.add(rate);
     }
 
     @Override
@@ -74,12 +63,20 @@ public class Currency {
 
         Currency currency = (Currency) o;
 
-        return id != null ? id.equals(currency.id) : currency.id == null;
+        return baseCode != null ? baseCode.equals(currency.baseCode) : currency.baseCode == null;
     }
 
     @Override
     public int hashCode() {
-        return id != null ? id.hashCode() : 0;
+        return baseCode != null ? baseCode.hashCode() : 0;
     }
 
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "id='" + baseCode + '\'' +
+                ", baseName='" + baseName + '\'' +
+                ", rates=" + rates +
+                '}';
+    }
 }

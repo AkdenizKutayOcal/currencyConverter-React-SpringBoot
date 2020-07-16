@@ -1,79 +1,102 @@
 package springframework.webapp.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Rate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String targetCode;
 
-    private Currency from;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "baseCode",nullable = false)
+    @JsonBackReference
+    private Currency base;
 
-    private String toName;
-    private String toCode;
-    private int value;
-    private String date;
+    @NotNull
+    private String targetName;
+    @NotNull
+    private double value;
+    private Date date;
 
     public Rate() {
     }
 
-    public Rate(String toName, String toCode, int value, String date) {
-        this.toName = toName;
-        this.toCode = toCode;
+    public Rate(String targetCode, Currency base, String targetName, double value, Date date) {
+        this.targetCode = targetCode;
+        this.base = base;
+        this.targetName = targetName;
         this.value = value;
         this.date = date;
     }
 
-    public Currency getFrom() {
-        return from;
+    public String getTargetCode() {
+        return targetCode;
     }
 
-    public void setFrom(Currency from) {
-        this.from = from;
+    public void setTargetCode(String targetCode) {
+        this.targetCode = targetCode;
     }
 
-    public String getToName() {
-        return toName;
+    public Currency getBase() {
+        return base;
     }
 
-    public void setToName(String toName) {
-        this.toName = toName;
+    public void setBase(Currency base) {
+        this.base = base;
     }
 
-    public String getToCode() {
-        return toCode;
+    public String getTargetName() {
+        return targetName;
     }
 
-    public void setToCode(String toCode) {
-        this.toCode = toCode;
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Rate rate = (Rate) o;
+
+        return targetCode != null ? targetCode.equals(rate.targetCode) : rate.targetCode == null;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return targetCode != null ? targetCode.hashCode() : 0;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "Rate{" +
+                "targetCode='" + targetCode + '\'' +
+                ", base=" + base +
+                ", targetName='" + targetName + '\'' +
+                ", value=" + value +
+                ", date=" + date +
+                '}';
+    }
 }
