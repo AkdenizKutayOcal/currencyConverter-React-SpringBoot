@@ -1,3 +1,3 @@
 # currencyConverter-React-SpringBoot
 
-<img src="Images/ss1.JPG" width="800">
+<img src="images/ss1.JPG" width="800">
