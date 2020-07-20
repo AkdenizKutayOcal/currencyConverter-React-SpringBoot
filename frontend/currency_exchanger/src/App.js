@@ -82,6 +82,10 @@ class App extends React.Component {
           <p className={styles.resultText}>
             {(() => {
               if (this.state.isButtonClicked) {
+
+                if(this.state.result==0){
+                  return "You have to select different currency values";
+                }
                 return (
                   this.state.amount +
                   "   " +
@@ -92,7 +96,7 @@ class App extends React.Component {
                   this.state.result
                 );
               } else {
-                return "You have to select different currency values";
+                return "Select distinct currencies from the lists and enter an amount";
               }
             })()}
           </p>
