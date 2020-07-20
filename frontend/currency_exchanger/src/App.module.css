@@ -12,6 +12,10 @@ body {
     justify-content: space-evenly;
 }
 
+.container .resultText{
+    
+    font-size: 20px
+}
 .titleDiv{
     margin-top: 10px;
     margin-bottom: 20px;

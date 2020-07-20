@@ -10,6 +10,10 @@ import java.util.Date;
 public class Rate {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private Long id;
+
+    @NotNull
     private String targetCode;
 
     @ManyToOne(optional = false)
@@ -32,6 +36,14 @@ public class Rate {
         this.targetName = targetName;
         this.value = value;
         this.date = date;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTargetCode() {
@@ -81,18 +93,19 @@ public class Rate {
 
         Rate rate = (Rate) o;
 
-        return targetCode != null ? targetCode.equals(rate.targetCode) : rate.targetCode == null;
+        return id != null ? id.equals(rate.id) : rate.id == null;
     }
 
     @Override
     public int hashCode() {
-        return targetCode != null ? targetCode.hashCode() : 0;
+        return id != null ? id.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Rate{" +
-                "targetCode='" + targetCode + '\'' +
+                "id=" + id +
+                ", targetCode='" + targetCode + '\'' +
                 ", base=" + base +
                 ", targetName='" + targetName + '\'' +
                 ", value=" + value +

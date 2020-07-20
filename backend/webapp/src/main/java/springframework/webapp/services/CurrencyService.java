@@ -20,27 +20,61 @@ public class CurrencyService {
         this.currencyRepository = currencyRepository;
     }
 
+    //Override findAll function
     public ArrayList<Currency> findAll() {
 
-        var it = currencyRepository.findAll();
+        try {
+            var it = currencyRepository.findAll();
 
-        var currencies = new ArrayList<Currency>();
-        it.forEach(e -> currencies.add(e));
+            var currencies = new ArrayList<Currency>();
+            it.forEach(e -> currencies.add(e));
 
-        return currencies;
+            return currencies;
+
+        }catch (Exception e){
+            System.err.println("Error occurred while finding currencies");
+        }
+        return null;
     }
 
-    public List<Rate> findRates(String baseCode){
 
-        var currency = currencyRepository.findById(baseCode).get();
+    public List<Rate> findRates(String baseCode) {
+        /*
+        * Returns rates List of currency with give baseCode
+        * @Param: String
+        * @return: List<Rate>
+        * */
 
-        var it = currency.getRates();
-        return it;
+        try {
+            var currency = currencyRepository.findById(baseCode).get();
+
+            var it = currency.getRates();
+            return it;
+        } catch (Exception e) {
+            System.err.println("Error occurred while finding Rates of the Currency with baseCode " + baseCode);
+        }
+        return null;
     }
 
-    /*public Currency findByBaseCode(String baseCode){
+    public double getValue(String baseCode, String targetCode) {
+        /*
+         * Returns value of given currency's given rate
+         * @Param: String, String
+         * @return: double
+         * */
 
-        Currency temp = (Currency) currencyRepository.findById(baseCode);
-        return temp;
-    }*/
+        try {
+            var it = findRates(baseCode);
+            for (var rate : it) {
+                if (rate.getTargetCode().equals(targetCode)) {
+                    return rate.getValue();
+                }
+            }
+        } catch (
+                Exception e) {
+            System.err.println("Error occurred while finding value of the" + targetCode + " with the Currency with baseCode " + baseCode);
+        }
+
+        return 0.0;
+    }
 }

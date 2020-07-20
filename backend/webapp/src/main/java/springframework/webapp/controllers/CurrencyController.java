@@ -38,4 +38,9 @@ public class CurrencyController {
     public List<Rate> getRates(@PathVariable String baseCode){
         return currencyService.findRates(baseCode);
     }
+
+    @GetMapping("/currencies/{baseCode}/rates/{targetCode}")
+    public double getValue(@PathVariable String baseCode,@PathVariable String targetCode){
+        return currencyService.getValue(baseCode,targetCode);
+    }
 }

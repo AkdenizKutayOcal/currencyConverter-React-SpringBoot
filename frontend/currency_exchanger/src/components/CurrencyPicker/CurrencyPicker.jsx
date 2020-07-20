@@ -1,58 +1,30 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import styles from './CurrencyPicker.module.css'
+import React, { useState, useEffect } from "react";
+import { NativeSelect, FormControl } from "@material-ui/core";
+import styles from "./CurrencyPicker.module.css";
+import { fetchCurrencyCodes } from "../../api/index";
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    display: 'block',
-    marginTop: theme.spacing(2),
-  },
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-}));
+const CurrencyPicker = ( {handleCurrencyChange}) => {
+  const [fetchedCurrencyCodes, setFetchedCurrencies] = useState([]);
 
-export default function ControlledOpenSelect() {
-  const classes = useStyles();
-  const [age, setAge] = React.useState('');
-  const [open, setOpen] = React.useState(false);
+  useEffect(() => {
+    const fetchAPI = async () => {
+      setFetchedCurrencies(await fetchCurrencyCodes());
+    };
+    fetchAPI();
+  }, [setFetchedCurrencies]);
 
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
+  
   return (
-    <div>
-      
-      <FormControl className={classes.formControl}>
-        
-        <Select
-          labelId="demo-controlled-open-select-label"
-          id="demo-controlled-open-select"
-          open={open}
-          onClose={handleClose}
-          onOpen={handleOpen}
-          value={age}
-          onChange={handleChange}
-        >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
-         
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl className={styles.FormControl}>
+      <NativeSelect defaultValue="" onChange={(e)=> handleCurrencyChange(e.target.value)}>
+        {fetchedCurrencyCodes.map((currency, i) => (
+          <option key={i} value={currency}>
+            {currency}
+          </option>
+        ))}
+      </NativeSelect>
+    </FormControl>
   );
-}
+};
+
+export default CurrencyPicker;
