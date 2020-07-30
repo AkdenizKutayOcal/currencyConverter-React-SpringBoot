@@ -58,7 +58,7 @@ public class CurrencyController {
         }
     }
     @DeleteMapping("/currency/{baseCode}")
-    void deleteEmployee(@PathVariable String baseCode) {
+    void deleteCurrency(@PathVariable String baseCode) {
         currencyService.deleteCurrency(baseCode);
     }
 }
