@@ -11,14 +11,14 @@ import springframework.webapp.repositories.RateRepository;
 import java.util.Date;
 
 @Component
-public class data implements CommandLineRunner {
+public class Data implements CommandLineRunner {
 
     @Autowired
     private final CurrencyRepository currencyRepository;
     @Autowired
     private final RateRepository rateRepository;
 
-    public data(CurrencyRepository currencyRepository, RateRepository rateRepository) {
+    public Data(CurrencyRepository currencyRepository, RateRepository rateRepository) {
         this.currencyRepository = currencyRepository;
         this.rateRepository = rateRepository;
     }

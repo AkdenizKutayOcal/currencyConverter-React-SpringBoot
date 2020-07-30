@@ -1,8 +1,7 @@
 package springframework.webapp.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import springframework.webapp.model.Currency;
 import springframework.webapp.model.Rate;
 import springframework.webapp.repositories.CurrencyRepository;
@@ -12,35 +11,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CurrencyController {
 
-
     private final CurrencyService currencyService;
-    private final CurrencyRepository currencyRepository;
 
-    public CurrencyController(CurrencyService currencyService, CurrencyRepository currencyRepository) {
-
+    @Autowired
+    public CurrencyController(CurrencyService currencyService) {
         this.currencyService = currencyService;
-        this.currencyRepository = currencyRepository;
     }
 
     @GetMapping("/currencies")
-    public ArrayList<Currency> allCurrencies(){
-        return currencyService.findAll();
+    public List<Currency> allCurrencies(){
+        return currencyService.findAllCurrencies();
     }
 
     @GetMapping("/currencies/{baseCode}")
     public Currency getCurrency(@PathVariable String baseCode){
-        return currencyRepository.findById(baseCode).get();
+        return currencyService.findCurrency(baseCode);
     }
 
     @GetMapping("/currencies/{baseCode}/rates")
     public List<Rate> getRates(@PathVariable String baseCode){
-        return currencyService.findRates(baseCode);
+        return currencyService.listRates(baseCode);
     }
 
     @GetMapping("/currencies/{baseCode}/rates/{targetCode}")
     public double getValue(@PathVariable String baseCode,@PathVariable String targetCode){
-        return currencyService.getValue(baseCode,targetCode);
+        return currencyService.findValueOf(baseCode,targetCode);
+    }
+    @PostMapping("/currencies")
+    public Currency createCurrency(@RequestBody Currency currency){
+        return currencyService.saveOrUpdateCurrency(currency);
+    }
+    @PutMapping("currencies/{baseCode}")
+    public Currency replaceCurrency(@RequestBody Currency newCurrency, @PathVariable String baseCode){
+        Currency currency = currencyService.findCurrency(baseCode);
+        if(currency==null){
+            return currencyService.saveOrUpdateCurrency(newCurrency);
+        }
+        else{
+            currency.setBaseCode(baseCode);
+            currency.setBaseName(newCurrency.getBaseName());
+            currency.setRates(newCurrency.getRates());
+            return currencyService.saveOrUpdateCurrency(currency);
+        }
+    }
+    @DeleteMapping("/currency/{baseCode}")
+    void deleteEmployee(@PathVariable String baseCode) {
+        currencyService.deleteCurrency(baseCode);
     }
 }
