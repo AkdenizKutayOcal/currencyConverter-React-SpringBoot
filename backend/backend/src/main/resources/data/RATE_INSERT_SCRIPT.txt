@@ -1,0 +1,20 @@
+INSERT INTO public.rates(
+	id, date, target_code, target_name, value, base_code)
+	VALUES (1,'2020-08-04 11:53 UTC','TRY','Turkish Lira',8.16621,'EUR');
+INSERT INTO public.rates(
+	id, date, target_code, target_name, value, base_code)
+	VALUES (2,'2020-08-04 11:53 UTC','USD','US Dollar',1.17962,'EUR');
+INSERT INTO public.rates(
+	id, date, target_code, target_name, value, base_code)
+	VALUES (3,'2020-08-04 11:53 UTC','GBP','British Pound',0.902466,'EUR');
+
+INSERT INTO public.rates(
+	id, date, target_code, target_name, value, base_code)
+	VALUES (4,'2020-08-04 11:53 UTC','USD','US Dollar',0.144192,'TRY');
+INSERT INTO public.rates(
+	id, date, target_code, target_name, value, base_code)
+	VALUES (5,'2020-08-04 11:53 UTC','GBP','British Pound',0.110309,'TRY');
+INSERT INTO public.rates(
+	id, date, target_code, target_name, value, base_code)
+	VALUES (6,'2020-08-04 11:53 UTC','EUR','Euro',0.122228,'TRY');
+

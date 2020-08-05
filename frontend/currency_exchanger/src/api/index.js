@@ -7,7 +7,7 @@ export const fetchCurrencies = async () => {
     let finalUrl = url+"currencies";
 
     try{
-        const response = await axios.get(finalUrl) 
+        const response = await axios.get(finalUrl)
         return response;
     
     }catch(error){
@@ -35,14 +35,35 @@ export const fetchCurrencyCodes = async () => {
 
 export const getValueOf = async (from,to) => {
 
-    console.log(" "+from+" "+to);
+    
     let finalUrl = url+"currencies/"+from+"/rates/"+to;
 
     try{
         const response = await axios.get(finalUrl); 
-        return response;
+        
+        return response.data;
     
     }catch(error){
         console.error("Could not fetch the value of the rate of the currency from "+url);
     }
+}
+
+export const createCurrency = async (item) =>{
+
+    let finalUrl = url+"currencies";
+
+    try{
+        console.log(item);
+        axios({
+            method: 'post',
+            url: finalUrl,
+            data: item
+        });
+
+    
+    }catch(error){
+        console.error("Error occured creating currency");
+    }
+
+
 }

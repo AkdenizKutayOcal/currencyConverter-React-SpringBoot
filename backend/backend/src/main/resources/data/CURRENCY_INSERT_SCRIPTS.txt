@@ -1,0 +1,15 @@
+INSERT INTO public.currencies(
+	base_code, base_name)
+	VALUES ('TRY', 'Turkish Lira');
+	
+INSERT INTO public.currencies(
+	base_code, base_name)
+	VALUES ('USD', 'US Dollar');
+
+INSERT INTO public.currencies(
+	base_code, base_name)
+	VALUES ('GBP', 'British Pound');
+
+INSERT INTO public.currencies(
+	base_code, base_name)
+	VALUES ('EUR', 'Euro');
