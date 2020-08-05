@@ -10,22 +10,26 @@ const CurrencyForm = () => {
     const [currencyName, setCurrencyName] = useState([]);
     
     const handleSubmit = ()=>{
+       
+        /*fetch(`http://localhost:8080/currencies`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: {
+
+                baseCode: currencyCode,
+                baseName: currencyName,
+                rates: []
+            }
+        });*/
         const item = {
 
             baseCode: currencyCode,
             baseName: currencyName,
             rates: []
         }
-
-
-        fetch(`http://localhost:8080/currencies`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: item
-        });
+        createCurrency(item);
     };
 
   return (
